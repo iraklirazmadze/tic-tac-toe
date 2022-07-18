@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
+<body>
+<section class=new-game-menu>
+  <img class="logo" src="./assets/logo.svg" alt="">
+  <div class="pick-player">
+    <p class="pick-player-p">PICK PLAYER 1'S MARK</p>
+    <div class="pick-mark">
+      <div class="x">
+        <img id="pick-silver-x" src="./assets/icon-x silver.svg" alt="">
+        <img id="pick-black-x" src="./assets/icon-x black.svg" alt="" style="display:none;">
+      </div> 
+      <div class="o">
+        <img id="pick-silver-o" src="./assets/icon-o silver.svg" alt="">
+        <img id="pick-black-o" src="./assets/icon-o black.svg" alt="" style="display:none;">
+      </div>
+    </div>
+    <p class="description">REMEMBER : X GOES FIRST</p>
+  </div>
+    <button class="vs-pcu">NEW GAME (VS CPU)</button>
+    <button class="vs-player">NEW GAME  (VS PLAYER)</button>
+</section>
+<section class="gameplay">
+<header>
+  <img src="./assets/logo.svg" class="logo" alt="">
+  <div class="header-turn">
+    <img id="x-turn" src="./assets/icon-x silver.svg" alt="">
+    <img id="o-turn" src="./assets/icon-o silver.svg" alt="">
+    <p>TURN</p>
+  </div>
+  <div class="restart-icon">
+    <img src="./assets/icon-restart.svg" alt="">
+  </div>
+</header>
+<div class="playground">
+</div>
+<footer>
+  <div id="xscore">
+    <p>X <span id="player-with-x"></span></p>
+    <p id="x-score">0</p>
+  </div>
+  <div id="tie">
+    <p>TIES</p>
+    <p id="ties">0</p>
+  </div>
+  <div id="oscore">
+    <p>O <span id="player-with-o"></span></p>
+    <p id="o-score">0</p>
+  </div>
+</footer>
+</section>
+<div class="background-black" id="background-black"></div>
+<section class="wins-section" id="wins-section">
+    <div class="wins-content">
+      <p class="who-win">PLAYER <span class="player1"> 1 </span><span class="player2">2</span> WINS!</p>
+      <p class="takes-round"><img class="x-logo" src="./assets/icon-x.svg" alt=""><img class="o-logo" src="./assets/icon-o.svg" alt="">TAKES THE ROUND</p>
+      <p class="tie" style="display:none;">ROUND TIED</p>
+      <p class="restart" style="display:none;">RESTART GAME?</p>
+      <div class="buttons">
+        <button class="quit">QUIT</button><button class="cancel" style="display:none;">NO, CANCEL</button> <button class="yes-restart" style="display:none;">YES, RESTART</button><button class="next-round">NEXT ROUND</button>
+      </div> 
+    </div>
+</section>
+<script src="./js/script.js"></script>
+</body>
+</html>
