@@ -11,10 +11,13 @@ function addButtons(){
      let button =document.createElement("button");
        document.querySelector(".playground").appendChild(button);
      button.setAttribute("id","box"+i);
-     button.setAttribute("class","boxes");
+     button.classList.add("boxes")
      let img=document.createElement("img");
      button.appendChild(img);
      img.setAttribute("class","N"+i);
+     let hoverimg = document.createElement("img");
+     button.appendChild(hoverimg);
+     hoverimg.setAttribute("class","himg");
     }
 }
     addButtons();
@@ -74,9 +77,9 @@ function winner(){
         if(someoneWins){
             winnerPlayerClassName = document.getElementById(arr[0]).childNodes[0].className;
             whichPlayerWin();
-            }
+            return true;
+        }
     }
-    return;
 }
 
 function whichPlayerWin(){
@@ -95,7 +98,9 @@ function xIsWinner(){
     document.querySelector(".who-win").style.display = "flex";
     document.querySelector(".takes-round").style.display = "flex";
     document.querySelector(".tie").style.display = "none";
+    if(fullButtons != 8){
     xWins += 1;
+    }
     if(document.getElementById("pick-silver-o").style.display == "none"){
         document.querySelector(".player1").style.display = "none";
         document.querySelector(".player2").style.display = "inline";
@@ -124,7 +129,7 @@ function oIsWinner() {
 }
 
 function tie(){
-    if(fullButtons == 9){
+    if(fullButtons == 9 && !winner()){
         ties+=1;
         document.querySelector(".wins-section").style.display = "flex";
         document.querySelector(".background-black").style.display = "flex";
@@ -136,9 +141,25 @@ function tie(){
 
 let x=0;
 
-function play(){
+function playVsPlayer(){
     for(let button of Array.from(document.querySelectorAll(".boxes"))){
         button.style.height = document.body.clientWidth*0.256+"px";
+        button.style.cursor = "pointer";
+        button.addEventListener("mouseover",()=>{
+            for(let hov of Array.from(document.querySelectorAll(".himg"))){
+                hov.style.display = "none";
+
+            }
+            if(button.childNodes[0].className == "x-img" || button.childNodes[0].className == "o-img"){
+                return;
+            }else if(x==0){
+                button.childNodes[1].setAttribute("src", "./assets/icon-x-outline.svg");
+                button.childNodes[1].style.display = "inline";
+            }else{
+                button.childNodes[1].setAttribute("src", "./assets/icon-o-outline.svg");
+                button.childNodes[1].style.display = "inline";
+            }
+        })
         button.addEventListener("click", (event) =>{
         if(button.childNodes[0].className == "x-img" || button.childNodes[0].className == "o-img"){
             return;
@@ -148,14 +169,17 @@ function play(){
             if(x == 0){
                 document.getElementById("x-turn").style.display = "none";
                 document.getElementById("o-turn").style.display = "inline";
+                button.childNodes[1].style.display = "none";
                 button.childNodes[0].setAttribute("src", "./assets/icon-x.svg");
                 button.childNodes[0].setAttribute("class","x-img");
                 winner();
                 fullButtons+=1;
                 x=1;
+                
             }else{
                 document.getElementById("x-turn").style.display = "inline";
                 document.getElementById("o-turn").style.display = "none";
+                button.childNodes[1].style.display = "none";
                 button.childNodes[0].setAttribute("src", "./assets/icon-o.svg")
                 button.childNodes[0].setAttribute("class","o-img");
                 winner();
@@ -167,7 +191,8 @@ function play(){
         })
     }
 }
-play();
+
+playVsPlayer();
 //quit game
 document.querySelector('.quit').addEventListener("click",()=>{
     window.location.reload();
@@ -184,10 +209,10 @@ document.querySelector(".next-round").addEventListener("click", ()=>{
     fullButtons = 0;
     deleteButtons();
     addButtons();
-    play();
+    playVsPlayer();
 })
 
-
+//restart menu
 document.querySelector(".restart-icon").addEventListener("click", ()=>{
     document.getElementById("wins-section").style.display = "flex";
     document.getElementById("background-black").style.display = "flex";  
