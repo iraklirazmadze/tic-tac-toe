@@ -344,18 +344,19 @@ function playVsCpu(){
                 button.childNodes[0].setAttribute("src", "./assets/icon-o.svg");
                 button.childNodes[0].setAttribute("class","o-img");
             }
-                if(fullButtons == 8){
-                    winnerVsCpu();
-                }
+                
                 fullButtons+=1;
-                tieVsCpu();
+                
                 z=1;
-                return cpuMove();
+                if(!winnerVsCpu()){
+                    tieVsCpu();
+                return cpuMove();}
             }
+            
             }
         })
     }
-    if(z==1){
+    if(z==1 && fullButtons == 0){
     cpuMove();
     }
 }
