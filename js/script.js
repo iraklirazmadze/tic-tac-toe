@@ -1,5 +1,5 @@
 
-let winnerPlayerClassName;
+let winnerPlayerClassName = 0;
 let xWins=0;
 let oWins=0;
 let ties=0;
@@ -65,6 +65,8 @@ document.querySelector(".vs-player").addEventListener("click",()=>{
             document.getElementById("player-with-o").innerHTML = "(P2)"
 
         }
+        playVsPlayer();
+        nextRoundVsPlayer();
     })
 }
 startPvsP();
@@ -98,9 +100,9 @@ function xIsWinner(){
     document.querySelector(".who-win").style.display = "flex";
     document.querySelector(".takes-round").style.display = "flex";
     document.querySelector(".tie").style.display = "none";
-    if(fullButtons != 8){
+
     xWins += 1;
-    }
+    
     if(document.getElementById("pick-silver-o").style.display == "none"){
         document.querySelector(".player1").style.display = "none";
         document.querySelector(".player2").style.display = "inline";
@@ -129,7 +131,7 @@ function oIsWinner() {
 }
 
 function tie(){
-    if(fullButtons == 9 && !winner()){
+    if(fullButtons == 9 && winnerPlayerClassName == 0){
         ties+=1;
         document.querySelector(".wins-section").style.display = "flex";
         document.querySelector(".background-black").style.display = "flex";
@@ -192,25 +194,28 @@ function playVsPlayer(){
     }
 }
 
-playVsPlayer();
+
 //quit game
 document.querySelector('.quit').addEventListener("click",()=>{
-    window.location.reload();
+window.location.reload();
 })
 
-
-document.querySelector(".next-round").addEventListener("click", ()=>{
+function nextRoundVsPlayer(){
+    document.querySelector(".next-round").addEventListener("click", ()=>{
     document.getElementById("x-score").innerHTML = xWins;
     document.getElementById("o-score").innerHTML = oWins;
     document.getElementById("ties").innerHTML = ties;
     document.getElementById("wins-section").style.display = "none";
     document.getElementById("background-black").style.display = "none";
+    winnerPlayerClassName = 0;
     x=0;
     fullButtons = 0;
     deleteButtons();
     addButtons();
     playVsPlayer();
-})
+    })
+}
+
 
 //restart menu
 document.querySelector(".restart-icon").addEventListener("click", ()=>{
@@ -226,12 +231,12 @@ document.querySelector(".restart-icon").addEventListener("click", ()=>{
     document.querySelector(".yes-restart").style.display ="inline";
 })
 
-    document.querySelector(".yes-restart").addEventListener("click", ()=>{
-        window.location.reload();
-    })
+document.querySelector(".yes-restart").addEventListener("click", ()=>{
+    window.location.reload();
+})
 
-    document.querySelector(".cancel").addEventListener("click", ()=>{
-        document.getElementById("wins-section").style.display = "none";
+document.querySelector(".cancel").addEventListener("click", ()=>{
+    document.getElementById("wins-section").style.display = "none";
     document.getElementById("background-black").style.display = "none";  
     document.querySelector(".who-win").style.display = "inline";
     document.querySelector(".takes-round").style.display = "inline";
@@ -241,4 +246,197 @@ document.querySelector(".restart-icon").addEventListener("click", ()=>{
     document.querySelector(".next-round").style.display ="inline";
     document.querySelector(".cancel").style.display ="none";
     document.querySelector(".yes-restart").style.display ="none";
+})
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+function startPvsCpu(){
+    document.querySelector(".vs-cpu").addEventListener("click",()=>{
+        if(document.getElementById("pick-black-o").style.display == "none" && document.getElementById("pick-black-x").style.display == "none"){
+            return;
+        }
+        document.querySelector(".new-game-menu").style.display = "none";
+        document.querySelector(".gameplay").style.display = "flex";
+    if(document.getElementById("pick-silver-o").style.display == "none"){
+        document.getElementById("player-with-x").innerHTML = "(CPU)"
+        document.getElementById("player-with-o").innerHTML = "(YOU)"
+        cpuMark="x";
+        z=1;
+        }else{
+            document.getElementById("player-with-x").innerHTML = "(YOU)"
+            document.getElementById("player-with-o").innerHTML = "(CPU)"
+            cpuMark = "o";
+            z=0;
+        }
+        playVsCpu();
+        nextRoundVsCpu();
     })
+}
+startPvsCpu();
+let cpuMark;
+
+function cpuMove(){
+    let emptyBoxes=[];
+    for(let btn of Array.from(document.querySelectorAll(".boxes"))){
+    if(btn.childNodes[0].className !== "x-img" &&  btn.childNodes[0].className !== "o-img"){
+        emptyBoxes.push(btn.id);
+    }}
+    let random = Math.floor(Math.random() * emptyBoxes.length);
+    let button = document.getElementById(emptyBoxes[random]);
+    if(cpuMark == "x"){
+        document.getElementById("x-turn").style.display = "none";
+    document.getElementById("o-turn").style.display = "inline";
+        button.childNodes[0].setAttribute("src", "./assets/icon-x.svg")
+        button.childNodes[0].setAttribute("class","x-img");
+    }else{
+        document.getElementById("x-turn").style.display = "inline";
+    document.getElementById("o-turn").style.display = "none";
+        button.childNodes[0].setAttribute("src", "./assets/icon-o.svg")
+        button.childNodes[0].setAttribute("class","o-img");
+    }
+    fullButtons +=1;
+    winnerVsCpu();
+    z=0;
+    tieVsCpu();
+}
+
+let z;
+
+function playVsCpu(){
+    for(let button of Array.from(document.querySelectorAll(".boxes"))){
+        button.style.height = document.body.clientWidth*0.256+"px";
+        button.style.cursor = "pointer";
+        button.addEventListener("mouseover",()=>{
+            for(let hov of Array.from(document.querySelectorAll(".himg"))){
+                hov.style.display = "none";
+
+            }
+            if(button.childNodes[0].className == "x-img" || button.childNodes[0].className == "o-img"){
+                return;
+            }else{
+                if(cpuMark == "o"){
+                button.childNodes[1].setAttribute("src", "./assets/icon-x-outline.svg");
+                button.childNodes[1].style.display = "inline";
+                }else{
+                    button.childNodes[1].setAttribute("src", "./assets/icon-o-outline.svg");
+                    button.childNodes[1].style.display = "inline";
+                }
+            }
+        })
+        
+        button.addEventListener("click", (event) =>{
+        if(button.childNodes[0].className == "x-img" || button.childNodes[0].className == "o-img"){
+            return;
+        }else{
+         
+            
+            if(z == 0){
+                button.childNodes[1].style.display = "none";
+                if(cpuMark == "o"){
+                button.childNodes[0].setAttribute("src", "./assets/icon-x.svg");
+                button.childNodes[0].setAttribute("class","x-img");
+            }else{
+                button.childNodes[0].setAttribute("src", "./assets/icon-o.svg");
+                button.childNodes[0].setAttribute("class","o-img");
+            }
+                if(fullButtons == 8){
+                    winnerVsCpu();
+                }
+                fullButtons+=1;
+                tieVsCpu();
+                z=1;
+                return cpuMove();
+            }
+            }
+        })
+    }
+    if(z==1){
+    cpuMove();
+    }
+}
+
+function nextRoundVsCpu(){
+    document.querySelector(".next-round").addEventListener("click", ()=>{
+    document.getElementById("x-score").innerHTML = xWins;
+    document.getElementById("o-score").innerHTML = oWins;
+    document.getElementById("ties").innerHTML = ties;
+    document.getElementById("wins-section").style.display = "none";
+    document.getElementById("background-black").style.display = "none";
+    fullButtons = 0;
+    if(document.getElementById("pick-silver-o").style.display == "none"){
+        z=1;
+    }else{
+        z=0;
+    }
+    winnerPlayerClassName = 0;
+    deleteButtons();
+    addButtons();
+    playVsCpu();
+    })
+}
+
+
+function tieVsCpu(){
+    if(fullButtons == 9 && winnerPlayerClassName == 0){
+        ties+=1;
+        document.querySelector(".wins-section").style.display = "flex";
+        document.querySelector(".background-black").style.display = "flex";
+        document.querySelector(".who-win").style.display = "none";
+        document.querySelector(".takes-round").style.display = "none";
+        document.querySelector(".tie").style.display = "inline";
+    }
+}
+function winnerVsCpu(){
+    for(let arr of winningArrays){
+        let someoneWins = document.getElementById(arr[0]).childNodes[0].className === document.getElementById(arr[1]).childNodes[0].className  && document.getElementById(arr[1]).childNodes[0].className=== document.getElementById(arr[2]).childNodes[0].className;
+        if(someoneWins){
+            winnerPlayerClassName = document.getElementById(arr[0]).childNodes[0].className;
+            whoWin();
+            return true;
+        }
+    }
+}
+
+function whoWin(){
+    document.querySelector(".wins-section").style.display = "flex";
+    document.querySelector(".background-black").style.display = "flex";
+    if(winnerPlayerClassName === "x-img"){
+        xMarkWin();
+    }else if(winnerPlayerClassName === "o-img"){
+        oMarkWin();
+    }
+}
+function xMarkWin(){
+    document.querySelector(".o-logo").style.display ="none";
+    document.querySelector(".x-logo").style.display ="inline";
+    document.querySelector(".takes-round").style.color ="#31C3BD";
+    if(cpuMark == "x"){
+    document.querySelector(".who-win").innerHTML = "OH NO, YOU LOST..."
+    }else{
+        document.querySelector(".who-win").innerHTML = "YOU WON!"
+    }
+    document.querySelector(".takes-round").style.display = "flex";
+    document.querySelector(".tie").style.display = "none";
+    xWins += 1;
+
+}
+
+function oMarkWin() {
+    document.querySelector(".x-logo").style.display ="none";
+    document.querySelector(".o-logo").style.display ="inline"; 
+    document.querySelector(".takes-round").style.color ="#F2B137";
+    if(cpuMark == "o"){
+        document.querySelector(".who-win").innerHTML = "OH NO, YOU LOST..."
+        }else{
+            document.querySelector(".who-win").innerHTML = "YOU WON!"
+        }
+    document.querySelector(".takes-round").style.display = "flex"
+    document.querySelector(".tie").style.display = "none";
+        oWins += 1;
+}
+
