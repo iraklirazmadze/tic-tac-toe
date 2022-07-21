@@ -433,9 +433,12 @@ function cpuMove(){
             buttonId = "box1";
         }else if(sum == 14  && document.getElementById("box1").childNodes[0].className !== "N1"){
             buttonId = "box7";
-        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4"){
+        }
+        else if(sum == 15 && document.getElementById("box9").childNodes[0].className !== "N9"){
+            buttonId = "box3";
+        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4" &&  document.getElementById("box9").childNodes[0].className == "N9"){
             buttonId = "box4";
-        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className !== "N4"){
+        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className !== "N4" && document.getElementById("box9").childNodes[0].className == "N9"){
             buttonId = "box1";
         }else if(sum == 11){
             buttonId = "box1";
