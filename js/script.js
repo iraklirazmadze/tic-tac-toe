@@ -279,26 +279,184 @@ function startPvsCpu(){
 }
 startPvsCpu();
 let cpuMark;
-
-function cpuMove(){
-    let emptyBoxes=[];
-    for(let btn of Array.from(document.querySelectorAll(".boxes"))){
-    if(btn.childNodes[0].className !== "x-img" &&  btn.childNodes[0].className !== "o-img"){
-        emptyBoxes.push(btn.id);
-    }}
-    let random = Math.floor(Math.random() * emptyBoxes.length);
-    let button = document.getElementById(emptyBoxes[random]);
+function makeMove(buttonId){
+    let aimButton = document.getElementById(buttonId);
     if(cpuMark == "x"){
         document.getElementById("x-turn").style.display = "none";
     document.getElementById("o-turn").style.display = "inline";
-        button.childNodes[0].setAttribute("src", "./assets/icon-x.svg")
-        button.childNodes[0].setAttribute("class","x-img");
+        aimButton.childNodes[0].setAttribute("src", "./assets/icon-x.svg")
+        aimButton.childNodes[0].setAttribute("class","x-img");
     }else{
         document.getElementById("x-turn").style.display = "inline";
     document.getElementById("o-turn").style.display = "none";
-        button.childNodes[0].setAttribute("src", "./assets/icon-o.svg")
-        button.childNodes[0].setAttribute("class","o-img");
+        aimButton.childNodes[0].setAttribute("src", "./assets/icon-o.svg")
+        aimButton.childNodes[0].setAttribute("class","o-img");
     }
+}
+
+let eachArrayIndex;
+function canWin(){
+    for(let arr of winningArrays){
+        const element1 = document.getElementById(arr[0]).childNodes[0].className;
+        const element2 = document.getElementById(arr[1]).childNodes[0].className;
+        const element3 = document.getElementById(arr[2]).childNodes[0].className;
+        eachArrayIndex = 0;
+    if(cpuMark == "x" && element1 !== "o-img" && element2 !== "o-img" && element3 !== "o-img"){
+        if(element1 == "x-img"){
+            eachArrayIndex +=2;
+        }
+        if(element2 == "x-img"){
+            eachArrayIndex += 3
+        }
+        if(element3 == "x-img"){
+            eachArrayIndex += 4;
+        }
+        if(eachArrayIndex == 5){
+            buttonId =  document.getElementById(arr[2]).id;
+        }else if(eachArrayIndex == 6){
+            buttonId = document.getElementById(arr[1]).id;
+        }else if(eachArrayIndex == 7){
+            buttonId =  document.getElementById(arr[0]).id;
+        }
+        
+    }else if(cpuMark == "o" && element1 !== "x-img" && element2 !== "x-img" && element3 !== "x-img"){
+        if(element1 == "o-img"){
+            eachArrayIndex +=2;
+        }
+        if(element2 == "o-img"){
+            eachArrayIndex += 3
+        }
+        if(element3 == "o-img"){
+            eachArrayIndex += 4;
+        }
+        if(eachArrayIndex == 5){
+            buttonId =  document.getElementById(arr[2]).id;
+        }else if(eachArrayIndex == 6){
+            buttonId = document.getElementById(arr[1]).id;
+        }else if(eachArrayIndex == 7){
+            buttonId =  document.getElementById(arr[0]).id;
+        }
+    }
+}
+}
+
+function canLose(){
+    for(let arr of winningArrays){
+        const element1 = document.getElementById(arr[0]).childNodes[0].className;
+        const element2 = document.getElementById(arr[1]).childNodes[0].className;
+        const element3 = document.getElementById(arr[2]).childNodes[0].className;
+        eachArrayIndex = 0;
+    if( cpuMark == "x" && element1 !== "x-img" && element2 !== "x-img" && element3 !== "x-img"){
+        if(element1 == "o-img"){
+            eachArrayIndex +=2;
+        }
+        if(element2 == "o-img"){
+            eachArrayIndex += 3
+        }
+        if(element3 == "o-img"){
+            eachArrayIndex += 4;
+        }
+        if(eachArrayIndex == 5){
+            buttonId =  document.getElementById(arr[2]).id;
+        }else if(eachArrayIndex == 6){
+            buttonId = document.getElementById(arr[1]).id;
+        }else if(eachArrayIndex == 7){
+            buttonId =  document.getElementById(arr[0]).id;
+        }
+        
+    }else if(cpuMark == "o" && element1 !== "o-img" && element2 !== "o-img" && element3 !== "o-img"){
+        if(element1 == "x-img"){
+            eachArrayIndex +=2;
+        }
+        if(element2 == "x-img"){
+            eachArrayIndex += 3
+        }
+        if(element3 == "x-img"){
+            eachArrayIndex += 4;
+        }
+        if(eachArrayIndex == 5){
+            buttonId =  document.getElementById(arr[2]).id;
+        }else if(eachArrayIndex == 6){
+            buttonId = document.getElementById(arr[1]).id;
+        }else if(eachArrayIndex == 7){
+            buttonId =  document.getElementById(arr[0]).id;
+        }
+    }
+}
+}
+
+function random(){
+    const random = Math.floor(Math.random() * emptyButtons.length);
+    randomId = emptyButtons[random];
+    buttonId =randomId;
+}
+
+let randomId;
+let emptyButtons;
+let sum;
+let buttonId;
+function cpuMove(){
+    sum =0;
+    emptyButtons=[];
+    for(let btn of Array.from(document.querySelectorAll(".boxes"))){
+
+        if(btn.childNodes[0].className == "x-img" ||  btn.childNodes[0].className == "o-img"){
+            sum += Number(btn.id[3]);
+        }else{
+            emptyButtons.push(btn.id);
+        }
+    }
+  
+    if(fullButtons == 0){
+        buttonId = "box5";
+    }else if(fullButtons == 1){
+        if(sum !== 5 ){
+            buttonId = "box5"
+        }else{
+            buttonId = "box1"
+        }
+    }else if(fullButtons == 2){
+        if( sum == 6 || sum == 14){
+            buttonId = "box3";
+        }else{
+            buttonId = "box1";
+        }
+    }else if(fullButtons == 3){
+        if(sum == 15 || sum ==13){
+            buttonId = "box3";
+        }else if(sum == 11){
+            buttonId = "box1";
+        }else if(sum == 17){
+            buttonId = "box7";
+        }else if(sum == 19){
+            buttonId = "box9";
+        }
+        canLose();
+    }else if(fullButtons == 4){
+        if(sum == 17){
+            buttonId = "box7";
+        }else{
+            buttonId = "box3";
+        }
+        canLose();
+        canWin();
+    }else if(fullButtons == 5){
+        random();
+        canLose();
+        canWin();
+    }else if(fullButtons == 6){
+        random();
+        canLose();
+        canWin();
+    }else if(fullButtons == 7){
+        random();
+        canLose();
+        canWin();
+    }else if(fullButtons == 8){
+        random();
+    }
+
+    makeMove(buttonId);
     fullButtons +=1;
     winnerVsCpu();
     z=0;
@@ -374,6 +532,7 @@ function nextRoundVsCpu(){
     }else{
         z=0;
     }
+    sum = 0;
     winnerPlayerClassName = 0;
     deleteButtons();
     addButtons();
