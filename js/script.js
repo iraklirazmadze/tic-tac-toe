@@ -422,13 +422,35 @@ function cpuMove(){
             buttonId = "box1";
         }
     }else if(fullButtons == 3){
-        if(sum == 15 || sum ==13){
+        if(sum == 12 && document.getElementById("box1").childNodes[0].className == "N1"){
+            buttonId = "box1";
+        }else if(sum == 12 && document.getElementById("box1").childNodes[0].className !== "N1"){
             buttonId = "box3";
+        }
+        if(sum ==13){
+            buttonId = "box3";
+        }else if(sum == 14  && document.getElementById("box4").childNodes[0].className == "N1"){
+            buttonId = "box1";
+        }else if(sum == 14  && document.getElementById("box4").childNodes[0].className !== "N1"){
+            buttonId = "box7";
+        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4"){
+            buttonId = "box4";
+        }else if(sum == 15 && document.getElementById("box4").childNodes[0].className !== "N4"){
+            buttonId = "box1";
         }else if(sum == 11){
             buttonId = "box1";
         }else if(sum == 17){
             buttonId = "box7";
-        }else if(sum == 19){
+        }else if(sum==16 && document.getElementById("box3").childNodes[0].className == "N3"){
+            buttonId = "box3";
+        }else if(sum == 16 && document.getElementById("box4").childNodes[0].className !== "N3"){
+            buttonId = "box9";
+        }else if(sum == 18  && document.getElementById("box9").childNodes[0].className == "N9"){
+            buttonId = "box9";
+        }else if(sum == 18  && document.getElementById("box4").childNodes[0].className !== "N9"){
+            buttonId = "box7";
+        }
+        else if(sum == 19){
             buttonId = "box9";
         }
         canLose();
@@ -456,7 +478,7 @@ function cpuMove(){
         random();
     }
 
-    makeMove(buttonId);
+    setTimeout(makeMove(buttonId),1000);
     fullButtons +=1;
     winnerVsCpu();
     z=0;
