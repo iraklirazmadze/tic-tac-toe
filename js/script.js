@@ -429,9 +429,9 @@ function cpuMove(){
         }
         if(sum ==13){
             buttonId = "box3";
-        }else if(sum == 14  && document.getElementById("box4").childNodes[0].className == "N1"){
+        }else if(sum == 14  && document.getElementById("box1").childNodes[0].className == "N1"){
             buttonId = "box1";
-        }else if(sum == 14  && document.getElementById("box4").childNodes[0].className !== "N1"){
+        }else if(sum == 14  && document.getElementById("box1").childNodes[0].className !== "N1"){
             buttonId = "box7";
         }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4"){
             buttonId = "box4";
