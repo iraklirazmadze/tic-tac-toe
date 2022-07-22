@@ -292,6 +292,7 @@ function makeMove(buttonId){
         aimButton.childNodes[0].setAttribute("src", "./assets/icon-o.svg")
         aimButton.childNodes[0].setAttribute("class","o-img");
     }
+    aimButton.childNodes[1].style.display = "none";
 }
 
 let eachArrayIndex;
@@ -435,7 +436,7 @@ function cpuMove(){
             buttonId = "box7";
         }
         else if(sum == 15 && document.getElementById("box9").childNodes[0].className !== "N9"){
-            buttonId = "box3";
+            buttonId = "box6";
         }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4" &&  document.getElementById("box9").childNodes[0].className == "N9"){
             buttonId = "box4";
         }else if(sum == 15 && document.getElementById("box4").childNodes[0].className !== "N4" && document.getElementById("box9").childNodes[0].className == "N9"){
@@ -481,7 +482,7 @@ function cpuMove(){
         random();
     }
 
-    setTimeout(makeMove(buttonId),1000);
+    makeMove(buttonId);
     fullButtons +=1;
     winnerVsCpu();
     z=0;
@@ -533,14 +534,14 @@ function playVsCpu(){
                 z=1;
                 if(!winnerVsCpu()){
                     tieVsCpu();
-                return cpuMove();}
+                return setTimeout(cpuMove,1000);}
             }
             
             }
         })
     }
     if(z==1 && fullButtons == 0){
-    cpuMove();
+    setTimeout(cpuMove,1000);
     }
 }
 
