@@ -409,7 +409,11 @@ function cpuMove(){
     }
   
     if(fullButtons == 0){
+        if(cpuMark == "x"){
         buttonId = "box5";
+    }else{
+        return;
+    }
     }else if(fullButtons == 1){
         if(sum !== 5 ){
             buttonId = "box5"
@@ -434,9 +438,10 @@ function cpuMove(){
             buttonId = "box1";
         }else if(sum == 14  && document.getElementById("box1").childNodes[0].className !== "N1"){
             buttonId = "box7";
-        }
-        else if(sum == 15 && document.getElementById("box9").childNodes[0].className !== "N9"){
+        }else if(sum == 15 && document.getElementById("box1").childNodes[0].className == "x-img"){
             buttonId = "box6";
+        }else if(sum == 15 && document.getElementById("box1").childNodes[0].className == "o-img"){
+            buttonId = "box3";
         }else if(sum == 15 && document.getElementById("box4").childNodes[0].className == "N4" &&  document.getElementById("box9").childNodes[0].className == "N9"){
             buttonId = "box4";
         }else if(sum == 15 && document.getElementById("box4").childNodes[0].className !== "N4" && document.getElementById("box9").childNodes[0].className == "N9"){
